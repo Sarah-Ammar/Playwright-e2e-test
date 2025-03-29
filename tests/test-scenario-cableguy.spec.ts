@@ -20,12 +20,16 @@ test.describe('CableGuy Test Scenario', () => {
 
 
         // Step 3: Select manufacturer and validate product count
-        await cableGuyPage.selectRandomManufacturer();
-        await cableGuyPage.validateProductCount();
+        const selectedManufacturer = await cableGuyPage.selectRandomManufacturer();
 
-        // // Step 4: Open random product
-        // await cableGuyPage.openRandomProduct();
-        // await cableGuyPage.verifyProductPage();
+        // Some manufacturers have no products (Check failed tests screenshots)
+        // Expect this test to fail during some executions
+        await cableGuyPage.validateProductCount(selectedManufacturer);
+
+        // Step 4: Open random product
+
+        //const selectedProduct = await cableGuyPage.openRandomProduct();
+        await cableGuyPage.verifyProductPage();
 
         // // Step 5: Add to basket and verify popup
         // await cableGuyPage.addToBasket();
