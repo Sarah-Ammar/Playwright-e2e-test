@@ -30,7 +30,7 @@ Designed for:
 
 ### Setup Steps
 1. Clone the repository:
-   git clone https://github.com/Sarah-Ammar/thomann-playwright-tests.git
+   git clone [https://github.com/Sarah-Ammar/thomann-playwright-tests.git](https://github.com/Sarah-Ammar/thomann-tech-task.git)
    cd thomann-playwright-tests
 
 2. Install dependencies:
