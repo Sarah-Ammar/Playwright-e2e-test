@@ -13,6 +13,7 @@ export class CableGuyPage {
     private readonly productCountLabel: Locator;
     private readonly productItems: Locator;
     private readonly productNames: Locator;
+    private readonly productOverview: Locator;
     private readonly addToBasketBtn: Locator;
     private readonly basketPopup: Locator;
 
@@ -38,9 +39,10 @@ export class CableGuyPage {
         this.cableOption = page.locator(".cg-plugItem");
         this.manufacturerOptions = page.locator(".cg-brands__item");
         this.productCountLabel = page.locator(".cg-brands__item__count");
-        this.productItems = page.locator(".cg-articles-list .fx-product-list-entry");
+        this.productItems = page.locator(".fx-product-list-entry");
         this.productNames = page.locator(".title__manufacturer");
-        this.addToBasketBtn = page.locator("#add-to-basket");
+        this.productOverview = page.locator(".fx-content-product .fx-product-orderable");
+        this.addToBasketBtn = page.getByRole('button', { name: 'Add to Basket' });
         this.basketPopup = page.locator(".basket-notification");
     }
 
@@ -82,23 +84,12 @@ export class CableGuyPage {
         const countLabel = selectedOption.locator('+ .cg-brands__item__count');
         const countText = await countLabel.innerText();
         const expectedCount = parseInt(countText?.match(/\d+/)![0] || '0');
-        //await this.productItems.first().waitFor({ state: 'visible' });
-        const actualCount = await this.page.locator('.cg-articles-list > div').count();
+        const actualCount = await this.productItems.count();
         expect(actualCount).toBe(expectedCount);
     }
 
-    // async openRandomProduct() {
-    //     const products = await this.productItems.all();
-    //     const randomProduct = products[Math.floor(Math.random() * products.length)];
+    async chooseProductVerifyPage() {
 
-    //     const productName = await randomProduct.innerText();
-    //     const productNameComparable = productName ? productName.trim().toLowerCase() : '';
-    //     randomProduct.click();
-    //     return { productNameComparable, randomProduct };
-
-    // }
-
-    async verifyProductPage() {
         const products = await this.productNames.all();
         const randomProduct = products[Math.floor(Math.random() * products.length)];
 
@@ -111,15 +102,20 @@ export class CableGuyPage {
             this.page.waitForURL('**/*', { waitUntil: 'load' }), // Listen for the new page
             randomProduct.click() // The action that triggers a new page
         ]);
+
+        // Check that the new page url contains the name of the chosen product
         await expect(
             this.page.url().toLowerCase()
         ).toMatch(new RegExp(expectedString, 'i'));
 
+        // // Check for the product overview in the new page
+        // await expect(this.productOverview).toBeVisible();
     }
 
-    // async addToBasket() {
-    //     await this.addToBasketBtn.click();
-    // }
+    async addToBasket() {
+        await expect(this.addToBasketBtn).toBeVisible();
+        await this.addToBasketBtn.click();
+    }
 
     // async verifyBasketPopup() {
     //     await expect(this.basketPopup).toBeVisible();

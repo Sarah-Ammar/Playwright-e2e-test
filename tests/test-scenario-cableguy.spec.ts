@@ -26,13 +26,13 @@ test.describe('CableGuy Test Scenario', () => {
         // Expect this test to fail during some executions
         await cableGuyPage.validateProductCount(selectedManufacturer);
 
-        // Step 4: Open random product
+        // Step 4: Open random product and Verify the correct page has opened
 
         //const selectedProduct = await cableGuyPage.openRandomProduct();
-        await cableGuyPage.verifyProductPage();
+        await cableGuyPage.chooseProductVerifyPage();
 
-        // // Step 5: Add to basket and verify popup
-        // await cableGuyPage.addToBasket();
+        // Step 5: Add to basket and verify popup
+        await cableGuyPage.addToBasket();
         // await cableGuyPage.verifyBasketPopup();
     });
 });
