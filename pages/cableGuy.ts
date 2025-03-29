@@ -16,6 +16,7 @@ export class CableGuyPage {
     private readonly productOverview: Locator;
     private readonly addToBasketBtn: Locator;
     private readonly basketPopup: Locator;
+    private readonly productPageName;
 
     constructor(page: Page) {
         this.page = page;
@@ -41,9 +42,9 @@ export class CableGuyPage {
         this.productCountLabel = page.locator(".cg-brands__item__count");
         this.productItems = page.locator(".fx-product-list-entry");
         this.productNames = page.locator(".title__manufacturer");
-        this.productOverview = page.locator(".fx-content-product .fx-product-orderable");
+        this.productPageName = page.locator('h1').textContent();
         this.addToBasketBtn = page.getByRole('button', { name: 'Add to Basket' });
-        this.basketPopup = page.locator(".basket-notification");
+        this.basketPopup = page.locator('#notifications-display');
     }
 
     // Select a random cable beginning
@@ -113,12 +114,18 @@ export class CableGuyPage {
     }
 
     async addToBasket() {
+        const productPageName = await this.page.locator('h1').textContent();
         await expect(this.addToBasketBtn).toBeVisible();
         await this.addToBasketBtn.click();
+
+        return productPageName;
     }
 
-    // async verifyBasketPopup() {
-    //     await expect(this.basketPopup).toBeVisible();
-    //     await expect(this.basketPopup).toContainText('Item added to basket');
-    // }
+    async verifyBasketPopup(productPageName: any) {
+        await expect(this.basketPopup).toBeVisible();
+        // Check the text of the popup
+        const expectedText = `${productPageName} is now in the shopping basket.`;
+        await expect(this.basketPopup)
+            .toContainText(expectedText);
+    }
 }

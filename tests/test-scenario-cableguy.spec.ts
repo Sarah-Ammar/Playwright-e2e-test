@@ -32,7 +32,7 @@ test.describe('CableGuy Test Scenario', () => {
         await cableGuyPage.chooseProductVerifyPage();
 
         // Step 5: Add to basket and verify popup
-        await cableGuyPage.addToBasket();
-        // await cableGuyPage.verifyBasketPopup();
+        const productName = await cableGuyPage.addToBasket();
+        await cableGuyPage.verifyBasketPopup(productName);
     });
 });
