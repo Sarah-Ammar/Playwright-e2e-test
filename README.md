@@ -65,7 +65,7 @@ npx playwright test
 ```bash
 npx playwright test tests/test-scenario-cableguy.spec.ts
 ```
-
+Note: Test execution reports are automatically stored in the playwright-report folder
 ---
 
 ## Project Structure
