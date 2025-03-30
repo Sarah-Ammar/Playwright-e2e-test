@@ -16,13 +16,10 @@ export class CableGuyPage {
     constructor(page: Page) {
         this.page = page;
 
-        // Initialize locators
-
-        // Cable beginning button
         this.cableBeginningBtn = page.locator(
             'button.cg-plugButton--left:has-text("cable beginning")',
         );
-        // Cable end button, better for accessibility options
+
         this.cableEndBtn = page.locator(
             'button.cg-plugButton--right:has-text("cable end")',
         );
@@ -68,7 +65,6 @@ export class CableGuyPage {
         const options = await this.manufacturerOptions.locator('.item').all();
         const randomOption = options.at(Math.floor(Math.random() * options.length));
 
-        //await randomOption.waitFor({ state: 'visible' });
         if (randomOption) {
             await randomOption.click();
         } else {

@@ -4,19 +4,14 @@ export class ProductPage {
     private readonly page: Page;
 
     // Locators
-    private readonly productCountLabel: Locator;
     private productItems: Locator;
     private readonly productNames: Locator;
-    private readonly productOverview: Locator;
-    private readonly productPageName;
 
     constructor(page: Page) {
         this.page = page;
 
-        this.productCountLabel = page.locator(".cg-brands__item__count");
         this.productItems = page.locator(".fx-product-list-entry");
         this.productNames = page.locator(".title__manufacturer");
-        this.productPageName = page.locator('h1').textContent();
     }
 
     async countItemsAcrossPages(page: Page): Promise<number> {
@@ -69,7 +64,6 @@ export class ProductPage {
             this.page.url().toLowerCase()
         ).toMatch(new RegExp(expectedString, 'i'));
 
-        // // Check for the product overview in the new page
-        // await expect(this.productOverview).toBeVisible();
+
     }
 }
