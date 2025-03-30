@@ -40,6 +40,7 @@ export class ProductPage {
         const countLabel = selectedOption.locator('.cg-brands__item__count');
         const expectedCount = parseInt((await countLabel.innerText()).match(/\d+/)?.[0] || '0');
 
+        await this.page.waitForTimeout(3000);
         const actualItemCount = await this.countItemsAcrossPages(this.page);
         expect(actualItemCount).toBe(expectedCount);
     }

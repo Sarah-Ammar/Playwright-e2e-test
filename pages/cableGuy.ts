@@ -66,7 +66,7 @@ export class CableGuyPage {
         const randomOption = options.at(Math.floor(Math.random() * options.length));
 
         if (randomOption) {
-            await randomOption.click();
+            await randomOption.scrollIntoViewIfNeeded().finally(() => randomOption.click());
         } else {
             throw new Error('Random option is undefined');
         }
