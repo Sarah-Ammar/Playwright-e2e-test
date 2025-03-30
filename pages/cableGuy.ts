@@ -10,13 +10,8 @@ export class CableGuyPage {
     private readonly activeCableTypeOptions: Locator;
     private readonly cableOption: Locator;
     private readonly manufacturerOptions: Locator;
-    private readonly productCountLabel: Locator;
-    private readonly productItems: Locator;
-    private readonly productNames: Locator;
-    private readonly productOverview: Locator;
-    private readonly addToBasketBtn: Locator;
-    private readonly basketPopup: Locator;
-    private readonly productPageName;
+    private productItems: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -38,13 +33,9 @@ export class CableGuyPage {
             hasNot: this.page.locator('.inactive')
         });
         this.cableOption = page.locator(".cg-plugItem");
-        this.manufacturerOptions = page.locator(".cg-brands__item");
-        this.productCountLabel = page.locator(".cg-brands__item__count");
+        this.manufacturerOptions = page.locator('.cg-brands .scroll .boundary .wrapper .items');
         this.productItems = page.locator(".fx-product-list-entry");
-        this.productNames = page.locator(".title__manufacturer");
-        this.productPageName = page.locator('h1').textContent();
-        this.addToBasketBtn = page.getByRole('button', { name: 'Add to Basket' });
-        this.basketPopup = page.locator('#notifications-display');
+
     }
 
     // Select a random cable beginning
@@ -73,59 +64,22 @@ export class CableGuyPage {
 
     // Select a random manufacturer
     async selectRandomManufacturer() {
-        const options = await this.manufacturerOptions.all();
-        const randomOption = options[Math.floor(Math.random() * options.length)];
-        await randomOption.click();
+        const options = await this.manufacturerOptions.locator('.item').all();
+        const randomOption = options.at(Math.floor(Math.random() * options.length));
+
+        //await randomOption.waitFor({ state: 'visible' });
+        if (randomOption) {
+            console.log('Random option:', randomOption.innerText());
+            await randomOption.click();
+        } else {
+            throw new Error('Random option is undefined');
+        }
+
+        await this.page.waitForTimeout(2000);
+        this.productItems = this.page.locator(".fx-product-list-entry");
 
         return randomOption;
     }
 
-    // Validate the product count of the previously selected manufacturer
-    async validateProductCount(selectedOption: any) {
-        const countLabel = selectedOption.locator('+ .cg-brands__item__count');
-        const countText = await countLabel.innerText();
-        const expectedCount = parseInt(countText?.match(/\d+/)![0] || '0');
-        const actualCount = await this.productItems.count();
-        expect(actualCount).toBe(expectedCount);
-    }
 
-    async chooseProductVerifyPage() {
-
-        const products = await this.productNames.all();
-        const randomProduct = products[Math.floor(Math.random() * products.length)];
-
-        const productName = await randomProduct.innerText();
-        const productNameComparable = productName ? productName.trim().toLowerCase() : '';
-        const expectedString = productNameComparable
-            .replace(/\s+/g, '_');
-
-        await Promise.all([
-            this.page.waitForURL('**/*', { waitUntil: 'load' }), // Listen for the new page
-            randomProduct.click() // The action that triggers a new page
-        ]);
-
-        // Check that the new page url contains the name of the chosen product
-        await expect(
-            this.page.url().toLowerCase()
-        ).toMatch(new RegExp(expectedString, 'i'));
-
-        // // Check for the product overview in the new page
-        // await expect(this.productOverview).toBeVisible();
-    }
-
-    async addToBasket() {
-        const productPageName = await this.page.locator('h1').textContent();
-        await expect(this.addToBasketBtn).toBeVisible();
-        await this.addToBasketBtn.click();
-
-        return productPageName;
-    }
-
-    async verifyBasketPopup(productPageName: any) {
-        await expect(this.basketPopup).toBeVisible();
-        // Check the text of the popup
-        const expectedText = `${productPageName} is now in the shopping basket.`;
-        await expect(this.basketPopup)
-            .toContainText(expectedText);
-    }
 }

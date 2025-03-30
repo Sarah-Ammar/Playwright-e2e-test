@@ -33,7 +33,10 @@ export default defineConfig({
 
     launchOptions: {
       slowMo: 1000, // Slows down every action by 1 second
+
     },
+    viewport: null,
+    deviceScaleFactor: 1
   },
 
   /* Configure projects for major browsers */
