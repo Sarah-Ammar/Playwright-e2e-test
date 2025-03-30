@@ -60,6 +60,7 @@ export class CableGuyPage {
         const cables = await this.cableOption.all();
         const randomCable = cables[Math.floor(Math.random() * cables.length)];
         await randomCable.click();
+
     }
 
     // Select a random manufacturer
@@ -69,7 +70,6 @@ export class CableGuyPage {
 
         //await randomOption.waitFor({ state: 'visible' });
         if (randomOption) {
-            console.log('Random option:', randomOption.innerText());
             await randomOption.click();
         } else {
             throw new Error('Random option is undefined');

@@ -45,3 +45,19 @@ npx playwright install
 npx playwright test --headed
 
 ## Project Structure
+thomann-tech-task/
+├── node_modules/          # Project dependencies
+├── pages/                 # Page Object Model classes
+│   ├── basketPage.ts      # Shopping basket interactions
+│   ├── cableGuy.ts        # CableGuy configuration page
+│   └── productPage.ts     # Product page interactions
+├── playwright-report/     # HTML test reports
+├── test-results/          # Raw test output
+├── tests/                 # Test specifications
+│   └── test-scenario-cableguy.spec.ts  # Main test scenario
+├── failed-tests-screenshots/ # Automatic failure screenshots
+├── .gitignore             # Version control exclusions
+├── package-lock.json      # Dependency lockfile
+├── package.json           # Project configuration
+├── playwright.config.ts   # Playwright settings
+└── README.md             # Project documentation
