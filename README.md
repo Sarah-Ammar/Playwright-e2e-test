@@ -1,5 +1,5 @@
 
-# Thomann Technical Task - Cable Chooser Automated Test
+# Thomann Website - Cable Chooser Automated Test
 
 ## Description
 This repository contains automated end-to-end tests for Thomann.de's CableGuy interface using Playwright. The test suite validates critical user workflows including:
