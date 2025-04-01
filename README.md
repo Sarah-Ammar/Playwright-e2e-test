@@ -33,7 +33,7 @@ This repository contains automated end-to-end tests for Thomann.de's CableGuy in
 ### Setup Steps:
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Sarah-Ammar/thomann-tech-task.git
+   git clone https://github.com/Sarah-Ammar/Playwright-e2e-test.git
    cd thomann-tech-task
    ```
 
